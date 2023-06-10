@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Ксюкулятор</string>
+    <string name="add_product_activity_label_text">Создание записи продукта</string>
+    <string name="display_product_activity_label_text">Просмотр записи продукта</string>
+    <string name="add_category_activity_label_text">Создание записи категории</string>
+    <string name="display_category_activity_label_text">Просмотр записи категории</string>
+    <string name="add_product_title_label">Название продукта</string>
+    <string name="add_product_cost_label">Стоимость продукта в х.е.</string>
+    <string name="add_category_title_label">Название категории</string>
+    <string name="save_button_text">Сохранить</string>
+    <string name="cancel_button_text">Отменить</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>
