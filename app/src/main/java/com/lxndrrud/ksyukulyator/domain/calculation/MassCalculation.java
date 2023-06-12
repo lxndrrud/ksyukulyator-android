@@ -3,11 +3,11 @@ package com.lxndrrud.ksyukulyator.domain.calculation;
 import androidx.annotation.NonNull;
 import com.lxndrrud.ksyukulyator.domain.Product;
 
-public class WeightCalculation implements ICalculationStrategy {
+public class MassCalculation implements ICalculationStrategy {
     private float totalCost;
     private Product product;
 
-    public WeightCalculation() {}
+    public MassCalculation() {}
 
     public void setProduct(@NonNull Product product) {
         this.product = product;

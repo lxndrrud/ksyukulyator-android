@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import androidx.annotation.NonNull;
 import com.lxndrrud.ksyukulyator.domain.Category;
 import com.lxndrrud.ksyukulyator.domain.Product;
 import com.lxndrrud.ksyukulyator.providers.DbProvider;
@@ -18,7 +19,7 @@ public class ProductsRepo {
         dbProvider = new DbProvider(context);
     }
 
-    public List<Product> getAll() throws Exception {
+    public List<Product> getAll() {
         SQLiteDatabase db = dbProvider.getReadableDatabase();
 
         String statement ="SELECT p.product_id, p.title, p.cost, " +
@@ -32,22 +33,47 @@ public class ProductsRepo {
 
         if (cursorItems.moveToFirst()) {
             do {
-                try {
-                    itemList.add(new Product(
-                            cursorItems.getLong(0),
-                            cursorItems.getString(1),
-                            cursorItems.getFloat(2),
-                            new Category(
-                                    cursorItems.getLong(3),
-                                    cursorItems.getString(4)
-                            )
-                    ));
-                } catch (Exception e) {
-                    throw new Exception(cursorItems.getLong(0) + " " + cursorItems.getString(1) + " " +
-                            cursorItems.getFloat(2) + " " + cursorItems.getLong(3) + " " +
-                            cursorItems.getString(4));
-                }
+                itemList.add(new Product(
+                        cursorItems.getLong(0),
+                        cursorItems.getString(1),
+                        cursorItems.getFloat(2),
+                        new Category(
+                                cursorItems.getLong(3),
+                                cursorItems.getString(4)
+                        )
+                ));
+            }
+            while(cursorItems.moveToNext());
+        }
+        cursorItems.close();
+        db.close();
+        return itemList;
+    }
 
+    public List<Product> getSelectedForCalculation() {
+        SQLiteDatabase db = dbProvider.getReadableDatabase();
+
+        String statement ="SELECT p.product_id, p.title, p.cost, " +
+                "CASE WHEN p.category_id IS NOT NULL THEN p.category_id ELSE 0 END, " +
+                "CASE WHEN p.category_id IS NOT NULL THEN c.title ELSE 'Без категории' END " +
+                "FROM products p " +
+                "LEFT JOIN categories AS c ON c.category_id = p.category_id " +
+                "WHERE p.is_selected_to_calculation = 1 " +
+                "ORDER BY p.title ASC ";
+        Cursor cursorItems = db.rawQuery(statement, null);
+        ArrayList<Product> itemList = new ArrayList<>();
+
+        if (cursorItems.moveToFirst()) {
+            do {
+                itemList.add(new Product(
+                        cursorItems.getLong(0),
+                        cursorItems.getString(1),
+                        cursorItems.getFloat(2),
+                        new Category(
+                                cursorItems.getLong(3),
+                                cursorItems.getString(4)
+                        )
+                ));
             }
             while(cursorItems.moveToNext());
         }
@@ -112,7 +138,7 @@ public class ProductsRepo {
         return resultProduct;
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(@NonNull Product product) {
         SQLiteDatabase db = dbProvider.getWritableDatabase();
 
         String sql = "UPDATE products SET title = ?, cost = ?, category_id = ? WHERE product_id = ? ;";
@@ -125,6 +151,18 @@ public class ProductsRepo {
             stmt.bindNull(3);
         }
         stmt.bindLong(4, product.getId());
+        stmt.execute();
+        stmt.clearBindings();
+        db.close();
+    }
+
+    public void updateIsSelectedForCalculation(@NonNull Product product, boolean value) {
+        SQLiteDatabase db = dbProvider.getWritableDatabase();
+
+        String sql = "UPDATE products SET is_selected_to_calculation = ? WHERE product_id = ? ;";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindLong(1, value ? 1L : 0L);
+        stmt.bindLong(2, product.getId());
         stmt.execute();
         stmt.clearBindings();
         db.close();

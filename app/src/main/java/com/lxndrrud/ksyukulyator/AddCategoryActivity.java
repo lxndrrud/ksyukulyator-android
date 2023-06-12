@@ -11,19 +11,18 @@ import com.lxndrrud.ksyukulyator.utils.toastMaker.LongToastMaker;
 
 
 public class AddCategoryActivity extends AppCompatActivity {
+
     private EditText titleEdit;
     private Button saveButton, cancelButton;
-    private TextView errorView;
     private CategoriesRepo categoriesRepo;
     private IToastMaker toastMaker;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_category_activity);
-        titleEdit = findViewById(R.id.titleEdit);
-        errorView = findViewById(R.id.errorView);
-        categoriesRepo = new CategoriesRepo(AddCategoryActivity.this);
         toastMaker = new LongToastMaker();
+        titleEdit = findViewById(R.id.titleEdit);
+        categoriesRepo = new CategoriesRepo(AddCategoryActivity.this);
     }
 
     public void onSaveButtonClick(View view) {
@@ -39,7 +38,8 @@ public class AddCategoryActivity extends AppCompatActivity {
             categoriesRepo.createCategory(title);
             finish();
         } catch (Exception e) {
-            errorView.setText(e.getMessage());
+            Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());
+            errorToast.show();
         }
     }
 

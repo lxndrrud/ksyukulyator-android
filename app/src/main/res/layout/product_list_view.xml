@@ -37,6 +37,7 @@
             android:id="@+id/productCheckbox"
             android:layout_toRightOf="@id/costView"
             android:scaleX="1.5" android:scaleY="1.5"
-            android:layout_marginLeft="60dp"/>
+            android:layout_marginLeft="30dp"
+    />
 
 </RelativeLayout>

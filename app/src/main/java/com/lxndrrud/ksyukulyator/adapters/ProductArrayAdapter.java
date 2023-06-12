@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,16 +16,15 @@ import com.lxndrrud.ksyukulyator.callbacks.ICallback;
 import com.lxndrrud.ksyukulyator.domain.Product;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class ProductArrayAdapter extends ArrayAdapter<Product> {
     private List<Product> selectedProducts;
-    private ICallback callback;
+    private ICallback selectionCallback;
     public ProductArrayAdapter(Context context, List<Product> products, List<Product> selectedProducts,
-        ICallback callback) {
+        ICallback selectionCallback) {
         super(context, R.layout.product_list_view, products);
         this.selectedProducts = selectedProducts;
-        this.callback = callback;
+        this.selectionCallback = selectionCallback;
     }
 
     @NonNull
@@ -46,7 +44,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
         titleView.setText(product.getTitle());
         costView.setText(product.getCost() + " ХЕ");
         categoryTitleView.setText(product.getCategory().getTitle());
-        productsCheckbox.setChecked(false);
+        productsCheckbox.setChecked(selectedProducts.contains(product));
 
         productsCheckbox.setOnCheckedChangeListener((compoundButton, b) -> {
             if (compoundButton.isChecked()) {
@@ -54,7 +52,7 @@ public class ProductArrayAdapter extends ArrayAdapter<Product> {
             } else {
                 selectedProducts.remove(product);
             }
-            callback.callBack();
+            selectionCallback.callBack();
         });
 
         convertView.setClickable(true);

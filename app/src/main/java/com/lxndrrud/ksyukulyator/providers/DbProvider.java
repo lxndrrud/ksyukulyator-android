@@ -24,6 +24,7 @@ public class DbProvider extends SQLiteOpenHelper {
                 "product_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "title VARCHAR(100) NOT NULL, " +
                 "cost FLOAT NOT NULL," +
+                "is_selected_to_calculation INTEGER NOT NULL CHECK (is_selected_to_calculation IN (0, 1)) DEFAULT 0, " +
                 "category_id INTEGER," +
                 "FOREIGN KEY(category_id) REFERENCES categories(category_id) ON UPDATE CASCADE ON DELETE SET NULL" +
                 ");";

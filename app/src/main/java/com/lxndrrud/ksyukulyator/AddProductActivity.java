@@ -2,7 +2,6 @@ package com.lxndrrud.ksyukulyator;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +18,6 @@ public class AddProductActivity extends AppCompatActivity {
     private EditText titleEdit, costEdit;
     private Button saveButton, cancelButton;
     private Spinner categorySpinner;
-    private TextView errorView;
 
     private ProductsRepo productsRepo;
     private CategoriesRepo categoriesRepo;
@@ -28,20 +26,20 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_product_activity);
-        titleEdit = findViewById(R.id.titleEdit);
-        costEdit = findViewById(R.id.costEdit);
-        categorySpinner = findViewById(R.id.categorySpinner);
-        errorView = findViewById(R.id.errorView);
-        categoriesRepo = new CategoriesRepo(AddProductActivity.this);
-        productsRepo = new ProductsRepo(AddProductActivity.this);
         toastMaker = new LongToastMaker();
         try {
+            titleEdit = findViewById(R.id.titleEdit);
+            costEdit = findViewById(R.id.costEdit);
+            categorySpinner = findViewById(R.id.categorySpinner);
+            categoriesRepo = new CategoriesRepo(AddProductActivity.this);
+            productsRepo = new ProductsRepo(AddProductActivity.this);
             List<Category> categoriesList = categoriesRepo.getAll(true);
             CategorySpinnerAdapter categoryAdapter = new CategorySpinnerAdapter(this, android.R.layout.simple_spinner_item,
                     categoriesList.toArray(new Category[0]));
             categorySpinner.setAdapter(categoryAdapter);
         } catch (Exception e) {
-            errorView.setText(e.getMessage());
+            Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());
+            errorToast.show();
         }
     }
 
@@ -69,7 +67,8 @@ public class AddProductActivity extends AppCompatActivity {
             productsRepo.createProduct(title, Float.parseFloat(cost), selectedCategory);
             finish();
         } catch (Exception e) {
-            errorView.setText(e.getMessage());
+            Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());
+            errorToast.show();
         }
     }
 

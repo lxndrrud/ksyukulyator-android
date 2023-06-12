@@ -6,32 +6,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-    <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" android:id="@+id/errorView"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="11sp"
-    />
     <RelativeLayout
             android:id="@+id/navigationLayout"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/errorView"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/productsListView"
             android:orientation="horizontal"
             android:layout_width="fill_parent" android:layout_height="50dp">
         <Button
-                android:text="Продукты"
+                android:text="@string/products_tab_name"
                 android:id="@+id/productsButton"
                 android:layout_width="133dp"
+                android:textSize="12sp"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/purple_200"
         />
         <Button
-                android:text="Категории"
+                android:text="@string/categories_tab_name"
                 android:id="@+id/categoriesButton"
                 android:layout_width="133dp"
+                android:textSize="12sp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
                 android:layout_marginLeft="4dp"
@@ -39,18 +33,20 @@
                 android:onClick="onCategoriesListActivityButtonClick"
         />
         <Button
-                android:text="Подсчёт"
+                android:text="@string/calculator_tab_name"
                 android:id="@+id/calculatorButton"
                 android:layout_width="133dp"
+                android:textSize="12sp"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/categoriesButton"
+                android:onClick="onCalculatorActivityButtonClick"
         />
 
     </RelativeLayout>
     <ListView
             android:id="@+id/productsListView"
             android:layout_width="match_parent"
-            android:layout_height="550dp"
+            android:layout_height="600dp"
             app:layout_constraintTop_toBottomOf="@id/navigationLayout"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -70,9 +66,9 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/productsListView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@id/productsListView"
-            android:layout_marginTop="400dp"
+            android:layout_marginBottom="150dp"
             android:layout_marginRight="50dp"
             android:clickable="true" app:srcCompat="@android:drawable/ic_input_add"
             android:id="@+id/addButton" tools:layout_editor_absoluteY="448dp"
@@ -96,9 +92,9 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/productsListView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@id/productsListView"
-            android:layout_marginTop="400dp"
+            android:layout_marginBottom="150dp"
             android:layout_marginRight="50dp"
             android:clickable="false" app:srcCompat="@android:drawable/ic_menu_delete"
             android:id="@+id/deleteButton"

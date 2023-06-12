@@ -21,6 +21,6 @@
             android:id="@+id/categoryCheckbox"
             android:layout_toRightOf="@id/titleView"
             android:scaleX="1.5" android:scaleY="1.5"
-            android:layout_marginLeft="120dp"/>
+            android:layout_marginLeft="80dp"/>
 
 </RelativeLayout>

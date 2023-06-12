@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
-import androidx.annotation.Nullable;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.lxndrrud.ksyukulyator.adapters.CategoryArrayAdapter;
@@ -14,43 +13,51 @@ import com.lxndrrud.ksyukulyator.callbacks.CategoriesSelectionLayoutCallback;
 import com.lxndrrud.ksyukulyator.callbacks.ICallback;
 import com.lxndrrud.ksyukulyator.domain.Category;
 import com.lxndrrud.ksyukulyator.repositories.CategoriesRepo;
+import com.lxndrrud.ksyukulyator.utils.toastMaker.IToastMaker;
+import com.lxndrrud.ksyukulyator.utils.toastMaker.LongToastMaker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesListActivity extends AppCompatActivity {
+    private IToastMaker toastMaker;
     private CategoriesRepo categoriesRepo;
     private ICallback selectionLayoutCallback;
     private List<Category> selectedCategoriesList;
     private FloatingActionButton addButton, deleteButton, cancelSelectionButton;
     private ListView categoriesView;
-    private TextView errorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categories_list_activity);
-        errorView = findViewById(R.id.errorView);
-        categoriesView = findViewById(R.id.categoriesListView);
-        categoriesView.setClickable(true);
-        addButton = findViewById(R.id.addButton);
-        deleteButton = findViewById(R.id.deleteButton);
-        cancelSelectionButton = findViewById(R.id.cancelSelectionButton);
-        selectedCategoriesList = new ArrayList<>();
-        categoriesRepo = new CategoriesRepo(CategoriesListActivity.this);
-        displayCategories();
+        toastMaker = new LongToastMaker();
+        try {
+            categoriesView = findViewById(R.id.categoriesListView);
+            categoriesView.setClickable(true);
+            addButton = findViewById(R.id.addButton);
+            deleteButton = findViewById(R.id.deleteButton);
+            cancelSelectionButton = findViewById(R.id.cancelSelectionButton);
+            selectedCategoriesList = new ArrayList<>();
+            categoriesRepo = new CategoriesRepo(CategoriesListActivity.this);
+            displayCategories();
+        } catch (Exception e) {
+            Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());
+            errorToast.show();
+        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         displayCategories();
+        selectionLayoutCallback.callBack();
     }
 
     public void displayCategories() {
         try {
             List<Category> categories = categoriesRepo.getAll(false);
-            errorView.setText("Количество категорий" + categories.size());
             ICallback selectionCallback = new CategoriesSelectionLayoutCallback(
                 this.selectedCategoriesList,
                 this.addButton, this.deleteButton, this.cancelSelectionButton);
@@ -60,11 +67,20 @@ public class CategoriesListActivity extends AppCompatActivity {
 
             categoriesView.setAdapter(categoryArrayAdapter);
         } catch (Exception e) {
-            errorView.setText(e.getMessage());
+            Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());
+            errorToast.show();
         }
     }
 
-    public void onProductsListActivityButtonClick(View view) { finish(); }
+    public void onProductsListActivityButtonClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void onCalculatorActivityButtonClick(View view) {
+        Intent intent = new Intent(this, CalculatorActivity.class);
+        startActivity(intent);
+    }
 
     public void onAddCategoryButtonClick(View view) {
         Intent intent = new Intent(this, AddCategoryActivity.class);
@@ -74,7 +90,9 @@ public class CategoriesListActivity extends AppCompatActivity {
         for (int i = 0; i < selectedCategoriesList.size(); i++) {
             try {
                 this.categoriesRepo.deleteCategory(selectedCategoriesList.get(i).getId());
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());
+                errorToast.show();
             }
         }
         selectedCategoriesList.clear();

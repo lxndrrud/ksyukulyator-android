@@ -1,17 +1,24 @@
 package com.lxndrrud.ksyukulyator.domain.calculation;
 
+import androidx.annotation.NonNull;
 import com.lxndrrud.ksyukulyator.domain.Product;
 
 public class TotalCostCalculation implements ICalculationStrategy {
-    private float weight;
+    private float mass;
     private Product product;
 
-    public TotalCostCalculation(Product product, float weight) {
+    public TotalCostCalculation() {}
+
+    public void setProduct(@NonNull Product product) {
         this.product = product;
-        this.weight = weight;
     }
+
+    public void setMass(float mass) {
+        this.mass = mass;
+    }
+
     @Override
     public float calculate() {
-        return (product.getCost() * weight ) / (12 * 100);
+        return (product.getCost() * mass ) / (12 * 100);
     }
 }

@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Ксюкулятор</string>
+    <string name="products_tab_name">Вкусняшки</string>
+    <string name="categories_tab_name">Категории</string>
+    <string name="calculator_tab_name">Расчёт</string>
     <string name="add_product_activity_label_text">Создание записи продукта</string>
     <string name="display_product_activity_label_text">Просмотр записи продукта</string>
     <string name="add_category_activity_label_text">Создание записи категории</string>
@@ -9,5 +12,9 @@
     <string name="add_category_title_label">Название категории</string>
     <string name="save_button_text">Сохранить</string>
     <string name="cancel_button_text">Отменить</string>
+    <string name="summary_mass">Общая масса: </string>
+    <string name="summary_total_cost">Общая стоимость: </string>
+    <string name="summary_mass_default">Общая масса: 0 грамм</string>
+    <string name="summary_total_cost_default">Общая стоимость: 0 ХЕ</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

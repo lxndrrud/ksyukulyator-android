@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.lxndrrud.ksyukulyator.DisplayCategoryActivity;
-import com.lxndrrud.ksyukulyator.DisplayProductActivity;
 import com.lxndrrud.ksyukulyator.R;
 import com.lxndrrud.ksyukulyator.callbacks.ICallback;
 import com.lxndrrud.ksyukulyator.domain.Category;
@@ -20,12 +19,12 @@ import java.util.List;
 
 public class CategoryArrayAdapter extends ArrayAdapter<Category> {
     private List<Category> selectedCategories;
-    private ICallback callback;
+    private ICallback selectionCallback;
     public CategoryArrayAdapter(Context context, List<Category> categories, List<Category> selectedCategories,
-                               ICallback callback) {
+                               ICallback selectionCallback) {
         super(context, R.layout.product_list_view, categories);
         this.selectedCategories = selectedCategories;
-        this.callback = callback;
+        this.selectionCallback = selectionCallback;
     }
 
     @NonNull
@@ -41,7 +40,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
         CheckBox categoryCheckbox = convertView.findViewById(R.id.categoryCheckbox);
 
         titleView.setText(category.getTitle());
-        categoryCheckbox.setChecked(false);
+        categoryCheckbox.setChecked(selectedCategories.contains(category));
 
         categoryCheckbox.setOnCheckedChangeListener((compoundButton, b) -> {
             if (compoundButton.isChecked()) {
@@ -49,7 +48,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
             } else {
                 selectedCategories.remove(category);
             }
-            callback.callBack();
+            selectionCallback.callBack();
         });
 
         convertView.setClickable(true);
