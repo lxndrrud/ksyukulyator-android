@@ -1,5 +1,6 @@
 package com.lxndrrud.ksyukulyator;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -122,11 +123,25 @@ public class CalculatorActivity extends AppCompatActivity {
     }
 
     public void onDeleteFromCalculatorButtonClick(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Убрать продукты")
+                .setMessage("Ксю, ты уверена, что хочешь убрать выбранные продукты с расчёта?")
+                .setPositiveButton("Подтвердить", (dialogInterface, i) -> {
+                    deleteSelectedProductsFromCalculation();
+                })
+                .setNegativeButton("Отмена", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void deleteSelectedProductsFromCalculation() {
         for (Product product : selectedProductsList) {
             productsRepo.updateIsSelectedForCalculation(product, false);
         }
+        selectedProductsList.clear();
         displayProductsForCalculation();
         calculationCallback.callBack();
+        selectionLayoutCallback.callBack();
     }
 
     public void onCancelSelectionButtonClick(View view) {

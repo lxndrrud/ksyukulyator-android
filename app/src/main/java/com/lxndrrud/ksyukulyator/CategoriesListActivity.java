@@ -1,5 +1,6 @@
 package com.lxndrrud.ksyukulyator;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -87,9 +88,22 @@ public class CategoriesListActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void onDeleteButtonClick(View view) {
-        for (int i = 0; i < selectedCategoriesList.size(); i++) {
+        new AlertDialog.Builder(this)
+                .setTitle("Удалить категории")
+                .setMessage("Ксю, ты уверена, что хочешь удалить выбранные категории?")
+                .setPositiveButton("Подтвердить", (dialogInterface, i) -> {
+                    deleteSelectedCategories();
+                })
+                .setNegativeButton("Отмена", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
+
+    private void deleteSelectedCategories() {
+        for (Category category : selectedCategoriesList) {
             try {
-                this.categoriesRepo.deleteCategory(selectedCategoriesList.get(i).getId());
+                this.categoriesRepo.deleteCategory(category.getId());
             } catch (Exception e) {
                 Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());
                 errorToast.show();

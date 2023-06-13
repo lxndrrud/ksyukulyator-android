@@ -1,5 +1,7 @@
 package com.lxndrrud.ksyukulyator;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
@@ -91,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDeleteButtonClick(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Удалить продукты")
+                .setMessage("Ксю, ты уверена, что хочешь удалить выбранные продукты?")
+                .setPositiveButton("Подтвердить", (dialogInterface, i) -> {
+                    deleteSelectedProducts();
+                })
+                .setNegativeButton("Отмена", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void deleteSelectedProducts() {
         for (Product product : selectedProductsList) {
             try {
                 this.productsRepo.deleteProduct(product.getId());

@@ -2,37 +2,40 @@ package com.lxndrrud.ksyukulyator.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import com.lxndrrud.ksyukulyator.R;
 import com.lxndrrud.ksyukulyator.domain.Category;
+
+import java.util.List;
 
 public class CategorySpinnerAdapter extends ArrayAdapter<Category> {
     private Context context;
-    private Category[] categories;
+    private List<Category> categories;
 
-    public CategorySpinnerAdapter(@NonNull Context context, int resource, @NonNull Category[] objects) {
+    public CategorySpinnerAdapter(@NonNull Context context, int resource, @NonNull List<Category> objects) {
         super(context, resource, objects);
         context = context;
         categories = objects;
-
     }
 
     @Override
     public int getCount(){
-        return categories.length;
+        return categories.size();
     }
 
     @Override
     public Category getItem(int position){
-        return categories[position];
+        return categories.get(position);
     }
 
     @Override
     public long getItemId(int position){
-        return categories[position].getId();
+        return categories.get(position).getId();
     }
 
     // And the "magic" goes here
@@ -40,14 +43,14 @@ public class CategorySpinnerAdapter extends ArrayAdapter<Category> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // I created a dynamic TextView here, but you can reference your own  custom layout for each spinner item
-        TextView label = (TextView) super.getView(position, convertView, parent);
-        label.setTextColor(Color.BLACK);
-        // Then you can get the current item using the values array (Users array) and the current position
-        // You can NOW reference each method you has created in your bean object (User class)
-        label.setText(categories[position].getTitle());
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_spinner_item_view, parent, false);
+        }
+        TextView categoryTitleView = convertView.findViewById(R.id.categoryTitleView);
+        categoryTitleView.setText(categories.get(position).getTitle());
 
         // And finally return your dynamic (or custom) view for each spinner item
-        return label;
+        return convertView;
     }
 
     // And here is when the "chooser" is popped up
@@ -55,9 +58,14 @@ public class CategorySpinnerAdapter extends ArrayAdapter<Category> {
     @Override
     public View getDropDownView(int position, View convertView,
                                 ViewGroup parent) {
-        TextView label = (TextView) super.getDropDownView(position, convertView, parent);
-        label.setTextColor(Color.BLACK);
-        label.setText(categories[position].getTitle());
-        return label;
+        // I created a dynamic TextView here, but you can reference your own  custom layout for each spinner item
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_spinner_item_view, parent, false);
+        }
+        TextView categoryTitleView = convertView.findViewById(R.id.categoryTitleView);
+        categoryTitleView.setText(categories.get(position).getTitle());
+
+        // And finally return your dynamic (or custom) view for each spinner item
+        return convertView;
     }
 }

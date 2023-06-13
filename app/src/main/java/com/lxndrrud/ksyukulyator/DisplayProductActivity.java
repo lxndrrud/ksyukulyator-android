@@ -68,8 +68,9 @@ public class DisplayProductActivity extends AppCompatActivity {
         if (selectedProduct != null) {
             titleEdit.setText(selectedProduct.getTitle());
             costEdit.setText(String.valueOf(selectedProduct.getCost()));
-            CategorySpinnerAdapter categoryAdapter = new CategorySpinnerAdapter(this, android.R.layout.simple_spinner_item,
-                    categoriesList.toArray(new Category[0]));
+            CategorySpinnerAdapter categoryAdapter = new CategorySpinnerAdapter(this,
+                    android.R.layout.simple_spinner_item,
+                    categoriesList);
             categorySpinner.setAdapter(categoryAdapter);
             int categoryPosition = this.findCategorySelectedCategoryPosition(categoriesList, selectedProduct.getCategory());
             categorySpinner.setSelection(categoryPosition);

@@ -34,8 +34,9 @@ public class AddProductActivity extends AppCompatActivity {
             categoriesRepo = new CategoriesRepo(AddProductActivity.this);
             productsRepo = new ProductsRepo(AddProductActivity.this);
             List<Category> categoriesList = categoriesRepo.getAll(true);
-            CategorySpinnerAdapter categoryAdapter = new CategorySpinnerAdapter(this, android.R.layout.simple_spinner_item,
-                    categoriesList.toArray(new Category[0]));
+            CategorySpinnerAdapter categoryAdapter = new CategorySpinnerAdapter(this,
+                    android.R.layout.simple_spinner_item,
+                    categoriesList);
             categorySpinner.setAdapter(categoryAdapter);
         } catch (Exception e) {
             Toast errorToast = toastMaker.makeToast(this, "Ошибка: " + e.getMessage());

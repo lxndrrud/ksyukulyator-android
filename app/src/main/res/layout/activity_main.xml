@@ -46,11 +46,12 @@
     <ListView
             android:id="@+id/productsListView"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="590dp"
             app:layout_constraintTop_toBottomOf="@id/navigationLayout"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:choiceMode="singleChoice"
+            android:theme="@style/Theme.Ksyukulyator"
     >
     </ListView>
     <!--androidx.recyclerview.widget.RecyclerView
@@ -67,9 +68,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="@id/productsListView"
-            android:layout_marginBottom="150dp"
-            android:layout_marginRight="50dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="155dp"
             android:clickable="true" app:srcCompat="@android:drawable/ic_input_add"
             android:id="@+id/addButton" tools:layout_editor_absoluteY="448dp"
             tools:layout_editor_absoluteX="304dp"
@@ -79,10 +80,10 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/deleteButton"
-            app:layout_constraintRight_toRightOf="@id/productsListView"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="50dp"
+            app:layout_constraintTop_toTopOf="@id/deleteButton"
+            app:layout_constraintRight_toLeftOf="@id/deleteButton"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="15dp"
             android:clickable="false" app:srcCompat="@android:drawable/ic_input_get"
             android:id="@+id/addToCalculatorButton"
             android:onClick="onAddToCalculatorButtonClick"
@@ -94,8 +95,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@id/productsListView"
-            android:layout_marginBottom="150dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="155dp"
             android:clickable="false" app:srcCompat="@android:drawable/ic_menu_delete"
             android:id="@+id/deleteButton"
             android:onClick="onDeleteButtonClick"
@@ -105,15 +106,16 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/deleteButton"
-            app:layout_constraintRight_toRightOf="@id/productsListView"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="50dp"
+            app:layout_constraintTop_toTopOf="@id/deleteButton"
+            app:layout_constraintLeft_toRightOf="@id/deleteButton"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="15dp"
             android:clickable="false" app:srcCompat="@android:drawable/ic_menu_revert"
             android:id="@+id/cancelSelectionButton"
             android:onClick="onCancelSelectionButtonClick"
             android:visibility="invisible"
-            android:focusable="true"/>
+            android:focusable="true"
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
